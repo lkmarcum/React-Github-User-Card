@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import UserCard from "./UserCard";
 
 class App extends React.Component {
   constructor() {
@@ -25,7 +26,12 @@ class App extends React.Component {
   };
 
   render() {
-    return <h1>User Card</h1>;
+    return (
+      <div>
+        <h1>User Card</h1>
+        <UserCard user={this.state.user} />
+      </div>
+    );
   }
 }
 
