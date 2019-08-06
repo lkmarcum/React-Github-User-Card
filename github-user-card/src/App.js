@@ -13,7 +13,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetchUser();
-    this.fetchFollowers();
+    this.fetchFollowerData();
   }
 
   fetchUser = () => {
@@ -27,12 +27,27 @@ class App extends React.Component {
       });
   };
 
-  fetchFollowers = () => {
+  fetchFollowerData = () => {
     fetch(`https://api.github.com/users/lkmarcum/followers`)
       .then(response => {
         return response.json();
       })
-      .then(newFollowers => this.setState({ followers: newFollowers }))
+      .then(newFollowers => {
+        newFollowers.forEach(follower => {
+          fetch(`${follower.url}`)
+            .then(response => {
+              return response.json();
+            })
+            .then(newFollower =>
+              this.setState({
+                followers: [...this.state.followers, newFollower]
+              })
+            )
+            .catch(err => {
+              console.log(err);
+            });
+        });
+      })
       .catch(err => {
         console.log(err);
       });
@@ -40,14 +55,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>User Card</h1>
-        <UserCard user={this.state.user} />
-        {this.state.followers.length === 0 ? (
-          <h5>Loading followers...</h5>
-        ) : (
-          this.state.followers.map(follower => <UserCard user={follower} />)
-        )}
+      <div className="App">
+        <header>
+          <h1>User Cards</h1>
+        </header>
+        <div className="user-card">
+          <UserCard user={this.state.user} />
+        </div>
+        <div className="follower-cards">
+          {this.state.followers.length === 0 ? (
+            <h5>Loading followers...</h5>
+          ) : (
+            this.state.followers.map(follower => <UserCard user={follower} />)
+          )}
+        </div>
       </div>
     );
   }
