@@ -3,6 +3,10 @@
   color: white;
 }
 
+a {
+  text-decoration: none;
+  margin: 20px;
+}
 .card-container {
   display: flex;
   width: 500px;
@@ -10,10 +14,10 @@
   background: #2f7e5a;
   border: 5px solid #6a9e87;
   border-radius: 10px;
-  margin: 20px;
   box-shadow: 3px 3px 3px #14603d;
   color: white;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-container img {
